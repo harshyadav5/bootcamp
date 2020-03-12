@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Locale;
 
 @RestController
-public class Driver {
+public class Controller{
     @Autowired
     private MessageSource messageSource;
-    
+
     @GetMapping(path = "/helloWorld1")
     public String helloWorldInternationalisation(){
         return messageSource.getMessage("good-morning",null, LocaleContextHolder.getLocale());
@@ -24,3 +24,4 @@ public class Driver {
         return "Hello"+username;
     }
 }
+    

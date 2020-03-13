@@ -10,9 +10,11 @@ import java.util.List;
 @RestController
 public class Controller{
     @Autowired
-    private  EmployeeDaoServices employeeDaoServices;
+    private EmployeeDaoServices employeeDaoServices;
     @Autowired
     private MessageSource messageSource;
+
+    // Internationalization
 
     @GetMapping(path = "/helloWorld1")
     public String helloWorldInternationalisation(){
@@ -22,6 +24,9 @@ public class Controller{
     public String returnHelloUserName(@PathVariable  String username){
         return "Hello"+username;
     }
+
+    // Content Negotiation
+    
     @GetMapping("/getEmployees")
     public List<Employee> getAllEmployees(){
         return employeeDaoServices.findAll();
@@ -30,5 +35,13 @@ public class Controller{
     public void addNewEmployee(@RequestBody Employee emp){
         Employee employee = employeeDaoServices.addEmployee(emp);
     }
+    @DeleteMapping("deleteEmployee/{id}")
+    public void deleteEmployee(@PathVariable int id){
+        Employee emp = employeeDaoServices.deleteEmployeeByID(id);
+
+        if(emp == null){
+            throw  new EmployeeNotFoundException("id"+id);
+        }
+    }
+
 }
-    

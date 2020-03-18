@@ -3,6 +3,9 @@ package com.example.JPAWithHibernatePart2;
 import com.example.JPAWithHibernatePart2.Single_Table_Strategy.Card;
 import com.example.JPAWithHibernatePart2.Single_Table_Strategy.Check;
 import com.example.JPAWithHibernatePart2.Single_Table_Strategy.PaymentRepository;
+import com.example.JPAWithHibernatePart2.Table_Per_Class.CardPayment;
+import com.example.JPAWithHibernatePart2.Table_Per_Class.CheckPayment;
+import com.example.JPAWithHibernatePart2.Table_Per_Class.PaymentRepositorys;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +22,8 @@ class JpaWithHibernatePart2ApplicationTests {
 	employeeRepository repository;
 	@Autowired
 	PaymentRepository paymentRepository;
+	@Autowired
+	PaymentRepositorys paymentRepositorys;
 
 	@Test
 	void contextLoads() {
@@ -149,5 +154,37 @@ class JpaWithHibernatePart2ApplicationTests {
 	//|  1 | cc    |  123.230 | NULL        | 45           |
 	//|  2 | cd    | 9078.650 | 76678998    | NULL         |
 	//+----+-------+----------+-------------+--------------+
+
+	//Ques 8:Implement and demonstrate Table Per Class strategy.
+	@Test
+	public void addCheckPaymentUsingTablePerClass(){
+		CheckPayment ch = new CheckPayment();
+		ch.setId(123);
+		ch.setAmount(123.456);
+		ch.setCheck_Number("8998");
+		paymentRepositorys.save(ch);
+	}
+	//Output:
+	// +----+-------+----------+-------------+--------------+
+	//| id | pmode | amount   | card_Number | check_Number |
+	//+----+-------+----------+-------------+--------------+
+	//|  1 | cc    |  123.230 | NULL        | 45           |
+	//|  2 | cd    | 9078.650 | 76678998    | NULL         |
+	//+----+-------+----------+-------------+--------------+
+
+	@Test
+	public void addCardPaymentUsingTablePerClass(){
+		CardPayment cd = new CardPayment();
+		cd.setId(456);
+		cd.setAmount(8787.003);
+		cd.setCard_Number("9984 5687 1234");
+		paymentRepositorys.save(cd);
+	}
+	//Output:+
+	// -----+----------+----------------+
+	//| id  | amount   | card_Number    |
+	//+-----+----------+----------------+
+	//| 456 | 8787.003 | 9984 5687 1234 |
+	//+-----+----------+----------------+
 }
 

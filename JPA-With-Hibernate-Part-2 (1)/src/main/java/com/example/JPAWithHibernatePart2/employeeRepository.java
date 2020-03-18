@@ -28,4 +28,12 @@ public interface employeeRepository extends CrudRepository<Employee,Integer> {
     @Query("delete from Employee where salary=:minsalary")
     @Modifying
     void deleteEmployee(@Param("minsalary") Integer salary);
+
+   @Query(value = "select emp_id,emp_age,emp_firstname from employee where emp_lastname like '%Singh'", nativeQuery = true)
+    List<Employee> selectUsingNative();
+
+   @Transactional
+   @Query(value = "delete from employee where emp_age>:AGE",nativeQuery = true)
+   @Modifying
+    void deleteEmployeeUsingNative(@Param("AGE") Integer age);
 }

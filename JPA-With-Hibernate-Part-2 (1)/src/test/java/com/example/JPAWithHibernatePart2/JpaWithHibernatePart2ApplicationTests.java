@@ -22,11 +22,11 @@ class JpaWithHibernatePart2ApplicationTests {
 	@Test
 	public void createEmployee() {
 		Employee employee = new Employee();
-		employee.setId(4040);
-		employee.setFirstName("Kshitiz");
-		employee.setLastName("Gupta");
-		employee.setSalary(22750);
-		employee.setAge(22);
+		employee.setId(4045);
+		employee.setFirstName("Ashish");
+		employee.setLastName("pal");
+		employee.setSalary(20000);
+		employee.setAge(60);
 		repository.save(employee);
 		System.out.println("Value Updated==================");
 	}
@@ -87,6 +87,37 @@ class JpaWithHibernatePart2ApplicationTests {
 	//|   4040 | Kshitiz       | Gupta        |      22750 |      22 |
 	//+--------+---------------+--------------+------------+---------+
 
+	//Ques 4:Display the id, first name, age of all employees where last name ends with "singh"
+	@Test
+	public void selectEmployeeDetailsUsingNative(){
+		List<Employee> list =repository.selectUsingNative();
+		list.forEach(e-> System.out.println(e));
+	}
+
+	//Ques 5:Delete all employees with age greater than 45(Should be passed as a parameter)
+	@Test
+	public void deleteUsingNative(){
+		repository.deleteEmployeeUsingNative(54);
+	}
+	//Output:BEFORE
+	// +--------+---------------+--------------+------------+---------+
+	//| emp_id | emp_firstname | emp_lastname | emp_salary | emp_age |
+	//+--------+---------------+--------------+------------+---------+
+	//|   4040 | Kshitiz       | Gupta        |      22750 |      22 |
+	//|   4041 | Harsh         | Yadav        |      15000 |      21 |
+	//|   4042 | Ashutosh      | singh        |      51000 |      21 |
+	//|   4044 | Abhishek      | singh        |      20000 |      21 |
+	//|   4045 | Ashish        | pal          |      20000 |      60 |
+	//+--------+---------------+--------------+------------+---------+
+	//AFTER
+	// +--------+---------------+--------------+------------+---------+
+	//| emp_id | emp_firstname | emp_lastname | emp_salary | emp_age |
+	//+--------+---------------+--------------+------------+---------+
+	//|   4040 | Kshitiz       | Gupta        |      22750 |      22 |
+	//|   4041 | Harsh         | Yadav        |      15000 |      21 |
+	//|   4042 | Ashutosh      | singh        |      51000 |      21 |
+	//|   4044 | Abhishek      | singh        |      20000 |      21 |
+	//+--------+---------------+--------------+------------+---------+
 
 }
 

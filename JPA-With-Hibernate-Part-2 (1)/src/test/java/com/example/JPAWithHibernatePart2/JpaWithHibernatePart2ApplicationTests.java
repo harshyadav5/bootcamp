@@ -1,5 +1,8 @@
 package com.example.JPAWithHibernatePart2;
 
+import com.example.JPAWithHibernatePart2.Single_Table_Strategy.Card;
+import com.example.JPAWithHibernatePart2.Single_Table_Strategy.Check;
+import com.example.JPAWithHibernatePart2.Single_Table_Strategy.PaymentRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +17,8 @@ import java.util.List;
 class JpaWithHibernatePart2ApplicationTests {
 	@Autowired
 	employeeRepository repository;
+	@Autowired
+	PaymentRepository paymentRepository;
 
 	@Test
 	void contextLoads() {
@@ -119,5 +124,30 @@ class JpaWithHibernatePart2ApplicationTests {
 	//|   4044 | Abhishek      | singh        |      20000 |      21 |
 	//+--------+---------------+--------------+------------+---------+
 
+	//Ques 6:Implement and demonstrate Single Table strategy.
+	@Test
+	public void addCheckPayment(){
+		Check ch = new Check();
+		ch.setId(1);
+		ch.setAmount(123.23);
+		ch.setCheck_Number("45");
+		paymentRepository.save(ch);
+	}
+	@Test
+	public void addCardPayment(){
+		Card cd = new Card();
+		cd.setId(2);
+		cd.setAmount(9078.65);
+		cd.setCard_Number("76678998");
+		paymentRepository.save(cd);
+	}
+
+	//Output:
+	// +----+-------+----------+-------------+--------------+
+	//| id | pmode | amount   | card_Number | check_Number |
+	//+----+-------+----------+-------------+--------------+
+	//|  1 | cc    |  123.230 | NULL        | 45           |
+	//|  2 | cd    | 9078.650 | 76678998    | NULL         |
+	//+----+-------+----------+-------------+--------------+
 }
 

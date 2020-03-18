@@ -1,5 +1,8 @@
 package com.example.JPAWithHibernatePart2;
 
+import com.example.JPAWithHibernatePart2.Joined_Table_Strategy.CardJoined;
+import com.example.JPAWithHibernatePart2.Joined_Table_Strategy.CheckJoined;
+import com.example.JPAWithHibernatePart2.Joined_Table_Strategy.PaymentJoinedRepository;
 import com.example.JPAWithHibernatePart2.Single_Table_Strategy.Card;
 import com.example.JPAWithHibernatePart2.Single_Table_Strategy.Check;
 import com.example.JPAWithHibernatePart2.Single_Table_Strategy.PaymentRepository;
@@ -24,6 +27,8 @@ class JpaWithHibernatePart2ApplicationTests {
 	PaymentRepository paymentRepository;
 	@Autowired
 	PaymentRepositorys paymentRepositorys;
+	@Autowired
+	PaymentJoinedRepository paymentJoinedRepository;
 
 	@Test
 	void contextLoads() {
@@ -186,5 +191,40 @@ class JpaWithHibernatePart2ApplicationTests {
 	//+-----+----------+----------------+
 	//| 456 | 8787.003 | 9984 5687 1234 |
 	//+-----+----------+----------------+
+
+	//Ques 8: Implement and demonstrate Table Per Class strategy.
+	@Test
+	public void addCardPaymentUsingJoinedStrategy(){
+		CardJoined cr = new CardJoined();
+		cr.setId(123);
+		cr.setAmount(8998.456);
+		cr.setCardnumber("9889 2345 5678 7656");
+		paymentJoinedRepository.save(cr);
+	}
+	@Test
+	public void addCheckPaymentUsingJoinedStrategy(){
+		CheckJoined ch = new CheckJoined();
+		ch.setId(345);
+		ch.setAmount(5667.45);
+		ch.setChecknumber("3456 7654 2343 1234");
+		paymentJoinedRepository.save(ch);
+	}
+	//Output:
+	// +-----+----------+
+	//| id  | amount   |
+	//+-----+----------+
+	//| 123 | 8998.456 |
+	//| 345 | 5667.450 |
+	//
+	//+-----+----------++------+---------------------+
+	//| id   | cardnumber          |
+	//+------+---------------------+
+	//|  123 | 9889 2345 5678 7656 |
+	//+------+---------------------+
+	//+------+---------------------+
+	//| id   | checknumber         |
+	//+------+---------------------+
+	//|  345 | 3456 7654 2343 1234 |
+	//+------+---------------------+
 }
 

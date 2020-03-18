@@ -1,10 +1,11 @@
-package com.example.JPAWithHibernatePart2.Table_Per_Class;
+package com.example.JPAWithHibernatePart2.Joined_Table_Strategy;
 
 import javax.persistence.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class PaymentParent {
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "paymentjoined")
+public abstract class Paymentjoined {
     @Id
     private Integer id;
     private double amount;

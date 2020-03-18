@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "pmode",discriminatorType = DiscriminatorType.STRING)
-public class Payment {
+public abstract class Payment {
     @Id
     private Integer id;
     private double amount;

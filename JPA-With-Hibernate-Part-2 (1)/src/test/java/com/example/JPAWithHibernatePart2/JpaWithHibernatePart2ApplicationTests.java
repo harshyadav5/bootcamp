@@ -192,7 +192,7 @@ class JpaWithHibernatePart2ApplicationTests {
 	//| 456 | 8787.003 | 9984 5687 1234 |
 	//+-----+----------+----------------+
 
-	//Ques 8: Implement and demonstrate Table Per Class strategy.
+	//Ques 7:Implement and demonstrate Joined strategy.
 	@Test
 	public void addCardPaymentUsingJoinedStrategy(){
 		CardJoined cr = new CardJoined();

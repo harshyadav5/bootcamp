@@ -1,5 +1,8 @@
 package com.example.JPAWithHibernatePart2;
 
+import com.example.JPAWithHibernatePart2.ComponentMapping.EmployeeComponent;
+import com.example.JPAWithHibernatePart2.ComponentMapping.EmployeeComponentRepository;
+import com.example.JPAWithHibernatePart2.ComponentMapping.Salary;
 import com.example.JPAWithHibernatePart2.Joined_Table_Strategy.CardJoined;
 import com.example.JPAWithHibernatePart2.Joined_Table_Strategy.CheckJoined;
 import com.example.JPAWithHibernatePart2.Joined_Table_Strategy.PaymentJoinedRepository;
@@ -22,13 +25,15 @@ import java.util.List;
 @SpringBootTest
 class JpaWithHibernatePart2ApplicationTests {
 	@Autowired
-	employeeRepository repository;
+	employeeRepository employeerepository;
 	@Autowired
 	PaymentRepository paymentRepository;
 	@Autowired
 	PaymentRepositorys paymentRepositorys;
 	@Autowired
 	PaymentJoinedRepository paymentJoinedRepository;
+	@Autowired
+	EmployeeComponentRepository employeeComponentRepository;
 
 	@Test
 	void contextLoads() {
@@ -42,13 +47,13 @@ class JpaWithHibernatePart2ApplicationTests {
 		employee.setLastName("pal");
 		employee.setSalary(20000);
 		employee.setAge(60);
-		repository.save(employee);
+		employeerepository.save(employee);
 		System.out.println("Value Updated==================");
 	}
 	@Test
 	public void findAllEmployee(){
 		Pageable pageable = PageRequest.of(0,2);
-		List<Employee> employees = (List<Employee>) repository.findAll();
+		List<Employee> employees = (List<Employee>) employeerepository.findAll();
 		employees.forEach(e-> System.out.println(e));
 
 	}
@@ -58,7 +63,7 @@ class JpaWithHibernatePart2ApplicationTests {
 	public void findfirstNameAndlastName() {
 		Sort sort = Sort.by(Sort.Order.asc("age"),Sort.Order.desc("salary"));
 		Pageable pageable = PageRequest.of(0,2,sort);
-		List<Object[]> employees = repository.findfirstNameAndlastName((PageRequest) pageable);
+		List<Object[]> employees = employeerepository.findfirstNameAndlastName((PageRequest) pageable);
 		for (Object[] objects : employees) {
 			System.out.println(objects[0]+" ");
 			System.out.println(objects[1]+" ");
@@ -77,8 +82,8 @@ class JpaWithHibernatePart2ApplicationTests {
 	@Test
 	@Rollback(value = false)
 	public void updateSalary(){
-		Integer agvsalary = repository.findAvarageSalary();
-		repository.updateSalary(agvsalary,12000);
+		Integer agvsalary = employeerepository.findAvarageSalary();
+		employeerepository.updateSalary(agvsalary,12000);
 	}
 	//Output:
 	// +--------+---------------+--------------+------------+---------+
@@ -92,8 +97,8 @@ class JpaWithHibernatePart2ApplicationTests {
 	@Test
 	@Rollback(value = false)
 	public void delete(){
-		Integer result = repository.findMinSalary();
-		repository.deleteEmployee(result);
+		Integer result = employeerepository.findMinSalary();
+		employeerepository.deleteEmployee(result);
 	}
 	//Output:
 	// +--------+---------------+--------------+------------+---------+
@@ -105,14 +110,14 @@ class JpaWithHibernatePart2ApplicationTests {
 	//Ques 4:Display the id, first name, age of all employees where last name ends with "singh"
 	@Test
 	public void selectEmployeeDetailsUsingNative(){
-		List<Employee> list =repository.selectUsingNative();
+		List<Employee> list =employeerepository.selectUsingNative();
 		list.forEach(e-> System.out.println(e));
 	}
 
 	//Ques 5:Delete all employees with age greater than 45(Should be passed as a parameter)
 	@Test
 	public void deleteUsingNative(){
-		repository.deleteEmployeeUsingNative(54);
+		employeerepository.deleteEmployeeUsingNative(54);
 	}
 	//Output:BEFORE
 	// +--------+---------------+--------------+------------+---------+
@@ -226,5 +231,30 @@ class JpaWithHibernatePart2ApplicationTests {
 	//+------+---------------------+
 	//|  345 | 3456 7654 2343 1234 |
 	//+------+---------------------+
+
+	//Ques 9:Implement and demonstrate Embedded mapping using employee table having following fields: id, firstName,
+	// lastName, age,basicSalary, bonusSalary, taxAmount, specialAllowanceSalary.
+	@Test
+	public void testComponentMapping(){
+		EmployeeComponent ec = new EmployeeComponent();
+		ec.setId(4040);
+		ec.setFirstname("Harsh");
+		ec.setLastname("Yadav");
+		ec.setAge(21);
+		Salary sc = new Salary();
+		sc.setBasicsalary(14568.98);
+		sc.setBonussalary(1800.23);
+		sc.setTaxamount(1789.98);
+		sc.setSpecialallowancesalary(1243.54);
+		ec.setSalary(sc);
+		employeeComponentRepository.save(ec);
+	}
+	//Output:+
+	// ------+-----------+----------+------+-------------+-------------+-----------+------------------------+
+	//| id   | firstname | lastname | age  | basicsalary | bonussalary | taxamount | specialallowancesalary |
+	//+------+-----------+----------+------+-------------+-------------+-----------+------------------------+
+	//| 4040 | Harsh     | Yadav    |   21 |   14568.980 |    1800.230 |  1789.980 |               1243.540 |
+	//+------+-----------+----------+------+-------------+-------------+-----------+------------------------+
+
 }
 

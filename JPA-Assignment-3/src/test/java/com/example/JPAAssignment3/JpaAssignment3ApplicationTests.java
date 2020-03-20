@@ -30,23 +30,21 @@ class JpaAssignment3ApplicationTests {
 
 		author.setAddress(address);
 
-		List<Subject> list = new ArrayList<Subject>();
 		Subject subject1 = new Subject();
 		subject1.setSubjectName("English");
 		subject1.setAuthor(author);
-		list.add(subject1);
 
 		Subject subject2 = new Subject();
 		subject2.setSubjectName("Maths");
 		subject2.setAuthor(author);
-		list.add(subject2);
 
 		Subject subject3 = new Subject();
 		subject3.setSubjectName("Science");
 		subject3.setAuthor(author);
-		list.add(subject3);
 
-		author.setList(list);
+		author.addSubject(subject1);
+		author.addSubject(subject2);
+		author.addSubject(subject3);
 		authorRepository.save(author);
 	}
 	//Output:
@@ -70,4 +68,35 @@ class JpaAssignment3ApplicationTests {
 	//|         8 | Maths       |         3 |
 	//|         9 | Science     |         3 |
 	//+-----------+-------------+-----------+
+
+	@Test
+	public void testLoadAuthor(){
+		Optional<Author> optional =authorRepository.findById(1);
+		Author author = optional.get();
+		System.out.println(author.getAuthorname());
+		List<Subject> list  = author.getList();
+		list.forEach(s-> System.out.println(s.getSubjectName()));
+
+	}
+	@Test
+	public void testOneToOne(){
+		Author author = new Author();
+		author.setAuthorname("Smarth Vaish");
+
+		Book book = new Book();
+		book.setBookName("TO THE NEW");
+		author.addBook(book);
+
+		Address address = new Address();
+		address.setStreetNumber("New Street Number");
+		address.setLocation("New Location");
+		address.setState("New State");
+		author.setAddress(address);
+
+		Subject subject = new Subject();
+		subject.setSubjectName("New Subject");
+		author.addSubject(subject);
+
+		authorRepository.save(author);
+	}
 }

@@ -1,11 +1,20 @@
 package com.example.JPAAssignment3;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 //Ques 5:Create an Entity book with an instance variable bookName.
 @Entity
 public class Book {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer bookid;
+    private String bookname;
+
+    @OneToOne
+    @JoinColumn(name = "author_id")
+    private Author author;
+
     public Integer getBookid() {
         return bookid;
     }
@@ -14,15 +23,19 @@ public class Book {
         this.bookid = bookid;
     }
 
-    @Id
-    private Integer bookid;
-    private String bookName;
-
     public String getBookName() {
-        return bookName;
+        return bookname;
     }
 
     public void setBookName(String bookName) {
-        this.bookName = bookName;
+        this.bookname = bookName;
+    }
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 }

@@ -21,8 +21,19 @@ public class Author {
     @OneToOne(mappedBy = "author",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Book book;
 
+    @OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
+    List<Book> bookList;
+
     public Integer getAuthorid() {
         return authorid;
+    }
+
+    public List<Book> getBookList() {
+        return bookList;
+    }
+
+    public void setBookList(List<Book> bookList) {
+        this.bookList = bookList;
     }
 
     public void setAuthorid(Integer authorid) {
@@ -74,6 +85,15 @@ public class Author {
     public void addBook(Book book){
         if (book != null){
             book.setAuthor(this);
+        }
+    }
+    public void addBookList(Book book){
+        if (book != null){
+            if (bookList == null){
+                bookList = new ArrayList<Book>();
+            }
+            book.setAuthor(this);
+            bookList.add(book);
         }
     }
 }

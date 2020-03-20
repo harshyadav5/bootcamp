@@ -78,6 +78,7 @@ class JpaAssignment3ApplicationTests {
 		list.forEach(s-> System.out.println(s.getSubjectName()));
 
 	}
+	//Ques 6: Implement One to One mapping between Author and Book.
 	@Test
 	public void testOneToOne(){
 		Author author = new Author();
@@ -98,5 +99,38 @@ class JpaAssignment3ApplicationTests {
 		author.addSubject(subject);
 
 		authorRepository.save(author);
+	}
+
+	//Ques 7:Implement One to Many Mapping between Author and Book(Unidirectional, BiDirectional
+	// and without additional table ) and implement cascade save.
+	@Test
+	public void testOneToMany(){
+		Author author =new Author();
+		author.setAuthorname("OneToMany");
+
+		Address address = new Address();
+		address.setStreetNumber("OneToManyStreet");
+		address.setLocation("OneToMany");
+		address.setLocation("OneToMany");
+		author.setAddress(address);
+
+		Subject subject = new Subject();
+		subject.setSubjectName("OneToManySubject");
+		author.addSubject(subject);
+
+		Book book1 = new Book();
+		book1.setBookName("OneToMany1");
+		author.addBookList(book1);
+
+		Book book2 = new Book();
+		book2.setBookName("OneToMany2");
+		author.addBookList(book2);
+
+		Book book3 = new Book();
+		book3.setBookName("OneToMany3");
+		author.addBookList(book3);
+
+		authorRepository.save(author);
+
 	}
 }

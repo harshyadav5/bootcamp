@@ -104,6 +104,7 @@ class JpaAssignment3ApplicationTests {
 	//Ques 7:Implement One to Many Mapping between Author and Book(Unidirectional, BiDirectional
 	// and without additional table ) and implement cascade save.
 	@Test
+	@Transactional // transactional annotation will rolled back at the end of test completion and data doesn't get added to database
 	public void testOneToMany(){
 		Author author =new Author();
 		author.setAuthorname("OneToMany");

@@ -27,14 +27,17 @@ public class Controller{
 
     // Content Negotiation
     
+    // Ques 5(a): Get details of User using GET request.
     @GetMapping("/getEmployees")
     public List<Employee> getAllEmployees(){
         return employeeDaoServices.findAll();
     }
+    // Ques 5(b): Get details of User using GET request.
     @PostMapping("/addEmployee")
     public void addNewEmployee(@RequestBody Employee emp){
         Employee employee = employeeDaoServices.addEmployee(emp);
     }
+    // Ques 5(c): Delete a user using DELETE request.
     @DeleteMapping("deleteEmployee/{id}")
     public void deleteEmployee(@PathVariable int id){
         Employee emp = employeeDaoServices.deleteEmployeeByID(id);

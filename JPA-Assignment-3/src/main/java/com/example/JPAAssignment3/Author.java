@@ -1,59 +1,61 @@
 package com.example.JPAAssignment3;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 @Entity
+@Table(name = "authortable")
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer authorid;
-    private String authorname;
+    @Column(name = "id")
+    private Integer id;
+    @Column(name = "author_Name")
+    private String authorName;
 
-    //Ques 2:Create instance variable of Address class inside Author class and save it as embedded object.
     @Embedded
-    Address address;
+    private Address address;
 
-    //Ques 3:Introduce a List of subjects for author.
-    @OneToMany(mappedBy = "author",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    List<Subject> list;
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    List<Subject> subjectList;
 
-    @OneToOne(mappedBy = "author",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    private Book book;
+    @ManyToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+    @JoinTable(name = "many_to_many_join",
+            joinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"))
+    private Set<Book> bookSet;
 
-    @OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
-    List<Book> bookList;
-
-    public Integer getAuthorid() {
-        return authorid;
+    public Integer getAuthorId() {
+        return id;
     }
 
-    public List<Book> getBookList() {
-        return bookList;
+    public void setAuthorId(Integer authorId) {
+        this.id = authorId;
     }
 
-    public void setBookList(List<Book> bookList) {
-        this.bookList = bookList;
+    public String getAuthorName() {
+        return authorName;
     }
 
-    public void setAuthorid(Integer authorid) {
-        this.authorid = authorid;
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 
-    public String getAuthorname() {
-        return authorname;
+    public List<Subject> getSubjectList() {
+        return subjectList;
     }
 
-    public void setAuthorname(String authorname) {
-        this.authorname = authorname;
+    public void setSubjectList(List<Subject> subjectList) {
+        this.subjectList = subjectList;
     }
 
-    public List<Subject> getList() {
-        return list;
+    public Set<Book> getBookSet() {
+        return bookSet;
     }
 
-    public void setList(List<Subject> list) {
-        this.list = list;
+    public void setBookSet(Set<Book> bookSet) {
+        this.bookSet = bookSet;
     }
 
     public Address getAddress() {
@@ -64,36 +66,14 @@ public class Author {
         this.address = address;
     }
 
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
-
-    //Better way to handle Foreign Key
-    public void addSubject(Subject subject){
-        if (subject != null){
-            if (list == null){
-                list = new ArrayList<Subject>();
-            }
-            subject.setAuthor(this);
-            list.add(subject);
-        }
-    }
-    public void addBook(Book book){
-        if (book != null){
-            book.setAuthor(this);
-        }
-    }
-    public void addBookList(Book book){
-        if (book != null){
-            if (bookList == null){
-                bookList = new ArrayList<Book>();
-            }
-            book.setAuthor(this);
-            bookList.add(book);
-        }
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", authorName='" + authorName + '\'' +
+                ", address=" + address +
+                ", subjectList=" + subjectList +
+                ", bookSet=" + bookSet +
+                '}';
     }
 }

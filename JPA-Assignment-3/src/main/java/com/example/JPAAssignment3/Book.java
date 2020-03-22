@@ -1,41 +1,45 @@
 package com.example.JPAAssignment3;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
-//Ques 5:Create an Entity book with an instance variable bookName.
 @Entity
+@Table(name = "books")
 public class Book {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer bookid;
-    private String bookname;
+    @Column(name = "id")
+    private Integer id;
+    @Column(name = "book_Name")
+    private String bookNmae;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id")
-    private Author author;
+//    @ManyToMany(mappedBy = "books")
+//    private List<Author> authorList;
+    @ManyToMany(mappedBy = "books")
+    private Set<Author> authorSet;
 
-    public Integer getBookid() {
-        return bookid;
+    public Integer getBookId() {
+        return id;
     }
 
-    public void setBookid(Integer bookid) {
-        this.bookid = bookid;
+    public void setBookId(Integer bookId) {
+        this.id = bookId;
     }
 
-    public String getBookName() {
-        return bookname;
+    public String getBookNmae() {
+        return bookNmae;
     }
 
-    public void setBookName(String bookName) {
-        this.bookname = bookName;
+    public void setBookNmae(String bookNmae) {
+        this.bookNmae = bookNmae;
     }
 
-    public Author getAuthor() {
-        return author;
+    public Set<Author> getAuthorSet() {
+        return authorSet;
     }
 
-    public void setAuthor(Author author) {
-        this.author = author;
+    public void setAuthorSet(Set<Author> authorSet) {
+        this.authorSet = authorSet;
     }
 }

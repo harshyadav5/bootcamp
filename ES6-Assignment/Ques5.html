@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Ques-5</title>
+  </head>
+  <body>
+    //Ques5. Filter unique array members using Set.
+    <script type="text/javascript">
+      const arr = [10,10,10,23,21,34,23];
+      document.write(arr);
+      let unique = new Set(arr);
+      console.log(unique);
+
+      const iterator = unique[Symbol.iterator]();
+      document.write(" first element of set :"+iterator.next().value);
+    </script>
+  </body>
+</html>

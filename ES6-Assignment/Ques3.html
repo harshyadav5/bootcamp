@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Ques-3</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      const song ={
+        name:'Dying to live',
+        artist:'Tupac',
+        featuring:'Biggie Smalls'
+      };
+      function songTemplate(song){
+        return `"<div class=song>
+          <p>
+            ${song.name}--${song.artist}
+            (Featuring ${song.featuring})
+          </p>
+        </div>"`;
+      }
+      document.write(songTemplate(song));
+    </script>
+  </body>
+</html>

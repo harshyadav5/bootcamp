@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Ques-6</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      function* keys(){
+        let count =0;
+        while(true){
+          count =count+1;
+          let reset = yield count;
+          if(reset){
+            count =0;
+          }
+        }
+      }
+
+      const str = 'abc';
+      let result = new Map();
+      let sequence = keys();
+
+      for(let i=0; i < str.length; i++){
+        for(let j=i+1; j <= str.length; j++){
+          result.set(sequence.next().value, str.substring(i,j));
+        }
+      }
+      console.log(result);
+    </script>
+  </body>
+</html>
